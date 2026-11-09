@@ -59,7 +59,7 @@ nav button.on{color:var(--gold);background:var(--card)}
 .sp-k b{font-size:min(4.4vw,20px)!important}.sp-k p{font-size:min(3.7vw,16px)}.sp-k>span{font-size:min(9vw,44px)!important}
 .sp .top b{font-size:min(3.8vw,17px)}
 </style></head><body>
-<div id="splash" class="sp" onclick="endSplash()"><div class="sp-top"><span>WEST AFRICA</span><span>2026 • EXAM</span></div>
+<div id="splash" class="sp" onclick="endSplash()"><div class="sp-top"><span>WEST AFRICA</span><span id="yr">2027 • EXAM</span></div>
 <div><div class="sp-c"><span class="sp-b">🎓 100% RÉUSSITE</span><span class="globe">🌍</span></div><div class="sp-x">EXAM</div><div class="sp-s">BAC RÉUSSITE INTERNATIONAL</div><p class="sp-p">Révise, progresse et réussis ton examen — où que tu sois en Afrique de l’Ouest.</p></div>
 <div><div class="sp-k"><span style="font-size:46px">🎉</span><div style="flex:1"><b style="font-size:19px">👩🏽‍🎓 👨🏽‍🎓 Ils célèbrent déjà...</b><p>Rejoins les élèves motivés.</p></div><span style="font-size:42px">⭐</span></div>
 <div class="top" style="margin-top:22px"><b>Chargement de ta réussite...</b><b id="pc" style="color:#E8B612">0%</b></div><div class="bar sp-bar"><i id="pb"></i></div><p style="margin-top:14px">Ouverture de ton espace…</p></div></div>
@@ -88,6 +88,7 @@ const QS=[
 
 const $=s=>document.querySelector(s);
 let U=null,P=null,tab="home",mode="signup",pend={},Q=null,openF=null,tm=null;
+{const d=new Date();$("#yr").textContent=(d.getMonth()>=7?d.getFullYear()+1:d.getFullYear())+" • EXAM"}
 const t0=performance.now(),spf=t=>{const p=Math.min(1,(t-t0)/2000);$("#pc").textContent=Math.round(p*100)+"%";$("#pb").style.width=p*100+"%";if(p<1)requestAnimationFrame(spf);else{const g=()=>window.rd0?endSplash():setTimeout(g,80);setTimeout(g,250)}};requestAnimationFrame(spf);setTimeout(()=>endSplash(),4500);
 window.endSplash=()=>{const s=$("#splash");if(!s)return;s.style.opacity=0;setTimeout(()=>s.remove(),400)};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
@@ -104,7 +105,7 @@ window.go=async()=>{const em=$("#em").value.trim(),pw=$("#pw").value;if(!em||!pw
 window.goog=async()=>{try{await signInWithPopup(auth,new GoogleAuthProvider())}catch(e){toast(errFr(e))}};
 window.sw=()=>{mode=mode==="signup"?"login":"signup";view()};
 window.out=()=>{signOut(auth)};
-onAuthStateChanged(auth,async u=>{U=u;P=null;if(u){const r=doc(db,"users",u.uid);try{let s=await getDoc(r);if(!s.exists()){await setDoc(r,{name:pend.name||u.displayName||"Élève",phone:pend.phone||"",operator:pend.op||"",premium:false,done:[],best:0,createdAt:serverTimestamp()});s=await getDoc(r)}P=s.data();await tick()}catch(e){toast("Base de données inaccessible. Vérifie les règles Firestore.");P={name:u.displayName||"Élève",done:[],best:0}}}tab="home";view()});
+onAuthStateChanged(auth,async u=>{U=u;P=null;if(u){const r=doc(db,"users",u.uid);try{let s=await getDoc(r);if(!s.exists()){await setDoc(r,{name:pend.name||u.displayName||"Élève",phone:pend.phone||"",operator:pend.op||"",premium:false,done:[],best:0,createdAt:serverTimestamp()});s=await getDoc(r)}P=s.data();await tick();await loadCfg()}catch(e){toast("Base de données inaccessible. Vérifie les règles Firestore.");P={name:u.displayName||"Élève",done:[],best:0}}}tab="home";view()});
 const tick=async()=>{const t=new Date().toISOString().slice(0,10),y=new Date(Date.now()-864e5).toISOString().slice(0,10);window.gap=P.last?Math.round((new Date(t)-new Date(P.last))/864e5):0;if(P.last!==t)await save({streak:P.last===y?(P.streak||0)+1:1,last:t})};
 const save=async d=>{Object.assign(P,d);try{await updateDoc(doc(db,"users",U.uid),d)}catch(e){toast("Progression non enregistrée.")}};
 
@@ -211,11 +212,15 @@ Voir un aperçu Togo BAC D|See a Togo BAC D preview
 Version gratuite|Free version
 Contenu en cours|Content in progress
 Progression non enregistrée.|Progress not saved.
+Date estimée — en attente du calendrier officiel.|Estimated date — waiting for the official calendar.
+(estimation)|(estimate)
 Cette session est passée. La prochaine date sera ajoutée dès qu'elle est connue.|This session has passed. The next date will be added as soon as it is known.
 C'est aujourd'hui, courage !|It's today, you've got this!`.split("\n").map(l=>l.split("|")).sort((a,b)=>b[0].length-a[0].length);
 const tr=el=>{if(S().esp!=="EN"||!el)return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){let v=n.nodeValue;const t=v.trim();if(X[t]){n.nodeValue=v.replace(t,X[t]);continue}for(const[a,b]of PR)if(v.includes(a))v=v.split(a).join(b);n.nodeValue=v.replace(/Série de (\d+) jours?/,"$1-day streak").replace(/Ça fait (\d+) jours que tu n'as pas révisé\. 5 min de révision \?/,"It's been $1 days since you last revised. 5 min of revision?")}};
 const DATES={"Togo|BAC":"2027-06-21/2027-06-25","Togo|BEPC":"2027-06-15/2027-06-17","Togo|Probatoire":"2027-05-24/2027-05-28"};
-const exInfo=()=>{const v=DATES[S().pays+"|"+S().exam];if(!v)return{left:null,txt:""};const[a,b]=v.split("/"),t0=new Date().setHours(0,0,0,0),f=x=>new Date(x+"T00:00:00"),A=f(a),B=b?f(b):null,days=Math.round((A-t0)/864e5),o={day:"numeric",month:"long"},y={...o,year:"numeric"};return{left:days<0&&B&&t0<=B?0:days,txt:B?`${A.toLocaleDateString(lc(),o)} – ${B.toLocaleDateString(lc(),y)}`:A.toLocaleDateString(lc(),y)}};
+const CFG={};const nk=(p,e)=>(p+"-"+e).normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-");
+const loadCfg=async()=>{try{const g=await getDoc(doc(db,"config","app"));if(g.exists())Object.assign(CFG,g.data())}catch(e){}};
+const exInfo=()=>{const v=CFG[nk(S().pays,S().exam)]||DATES[S().pays+"|"+S().exam];if(!v)return{left:null,txt:""};const[a,b]=v.split("/"),t0=new Date().setHours(0,0,0,0),f=x=>new Date(x+"T00:00:00");let A=f(a),B=b?f(b):f(a),est=false;while(B<t0){A.setFullYear(A.getFullYear()+1);B.setFullYear(B.getFullYear()+1);est=true}const days=Math.round((A-t0)/864e5),o={day:"numeric",month:"long"},y={...o,year:"numeric"};return{est,left:Math.max(days,0),txt:(b?`${A.toLocaleDateString(lc(),o)} – ${B.toLocaleDateString(lc(),y)}`:A.toLocaleDateString(lc(),y))+(est?" (estimation)":"")}};
 let lastDay=new Date().toDateString();setInterval(()=>{const d=new Date().toDateString();if(d!==lastDay){lastDay=d;if(U&&P&&tab==="home")view()}},30000);
 function view(){window.rd0=1;clearInterval(tm);const A=$("#app"),N=$("#nav");if(!U){N.hidden=true;A.innerHTML=`<div class="wrap"><p class="logo">EXAM • BAC RÉUSSITE</p><h1 style="margin:14px 0 4px">Bienvenue dans ton espace</h1><p>Retrouve ta progression partout.</p>
  <button class="btn alt" onclick="goog()">Continuer avec Google</button><p style="text-align:center;margin:14px 0 4px">ou avec tes coordonnées</p>
@@ -234,7 +239,7 @@ window.gof=id=>{tab="cours";rd(id)};
 function home(){const d=new Date(),dt=d.toLocaleDateString(lc(),{weekday:"long",day:"numeric",month:"long"}),EI=exInfo(),left=EI.left,
  ps=SUBJ.map(([m,i])=>({m,i,p:pct(m)})),weak=ps.slice(0,2).sort((a,b)=>a.p-b.p)[0],next=FICHES.find(x=>x.p&&!done().includes(x.id)),all=Math.round(ps.reduce((a,s)=>a+s.p,0)/ps.length),st=P?.streak||1;
  return `<p style="margin-top:16px">${dt}</p><h1>Bonjour, ${esc(P?.name||"")} 👋</h1>
- <div class="gold"><p>Compte à rebours • ${lab()}</p><h1 style="font-size:46px;margin:6px 0">${left===null?"Bientôt":left<0?"Terminé":"J-"+left}</h1><p>${left===null?"La date officielle sera affichée ici.":left<0?"Cette session est passée. La prochaine date sera ajoutée dès qu'elle est connue.":left===0?"C'est aujourd'hui, courage !":"Avant l'examen. Courage !"}</p><div class="bar"><i style="width:${left===null||left<0?0:Math.min(100,Math.round(left/1.8))}%"></i></div><div class="row"><p>${left===null?"Date à confirmer":"Temps restant"}</p><p>🔥 Série de ${st} jour${st>1?"s":""}</p></div></div>
+ <div class="gold"><p>Compte à rebours • ${lab()}</p><h1 style="font-size:46px;margin:6px 0">${left===null?"Bientôt":left<0?"Terminé":"J-"+left}</h1><p>${left===null?"La date officielle sera affichée ici.":EI.est?"Date estimée — en attente du calendrier officiel.":left===0?"C'est aujourd'hui, courage !":"Avant l'examen. Courage !"}</p><div class="bar"><i style="width:${left===null||left<0?0:Math.min(100,Math.round(left/1.8))}%"></i></div><div class="row"><p>${left===null?"Date à confirmer":"Temps restant"}</p><p>🔥 Série de ${st} jour${st>1?"s":""}</p></div></div>
  <div class="card"><h3>📅 Date officielle</h3><p>${S().pays} • Calendrier officiel</p><div style="background:var(--deep);border-radius:16px;padding:14px;margin-top:10px"><b>${lab()}</b><p>${EI.txt||"À confirmer"}</p></div></div>
  <div class="card"><div class="row"><h3>🧠 Mon Coach Intelligent</h3><span class="pill">${prem()?"👑":"🔒"} PREMIUM</span></div><p>Aperçu gratuit : 1er point faible.</p><div style="background:#3a2850;border-radius:18px;padding:14px;margin-top:10px"><p style="color:#f9a8a8;font-weight:800">Point faible</p><h3>${weak.m} — ${weak.p}%</h3><button class="btn" style="background:var(--bad);color:#fff;width:auto;padding:10px 18px" onclick="tb('cours')">Travailler ce point →</button></div>${prem()?"":`<div style="background:#1a2a5c;border-radius:18px;padding:16px;margin-top:10px;text-align:center"><div style="font-size:30px">🔒</div><b>Plan complet réservé Premium</b><button class="btn alt" onclick="tb('prem')">Débloquer avec Premium - ${PRIX}</button></div>`}</div>
  <div class="card"><h3>Plan du jour</h3><div class="row" style="margin-top:10px"><span class="pill">20 min</span><p style="color:#fff;flex:1">${next?"1) Lire la fiche — "+next.t:"1) Refaire un quiz pour t'entraîner"}</p><button class="pill" onclick="${next?`gof('${next.id}')`:"tb('quiz')"}">Go →</button></div><div class="row" style="margin-top:12px;background:var(--deep);border-radius:16px;padding:12px"><span>🔒</span><p style="flex:1">Examen blanc complet</p>${prem()?"":`<button class="pill" onclick="tb('prem')">Débloquer</button>`}</div></div>
