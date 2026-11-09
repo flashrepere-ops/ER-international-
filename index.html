@@ -91,7 +91,7 @@ let U=null,P=null,tab="home",mode="signup",pend={},Q=null,openF=null,tm=null;
 const t0=performance.now(),spf=t=>{const p=Math.min(1,(t-t0)/2000);$("#pc").textContent=Math.round(p*100)+"%";$("#pb").style.width=p*100+"%";if(p<1)requestAnimationFrame(spf);else{const g=()=>window.rd0?endSplash():setTimeout(g,80);setTimeout(g,250)}};requestAnimationFrame(spf);setTimeout(()=>endSplash(),4500);
 window.endSplash=()=>{const s=$("#splash");if(!s)return;s.style.opacity=0;setTimeout(()=>s.remove(),400)};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const toast=m=>{const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(t.h);t.h=setTimeout(()=>t.hidden=true,3200)};
+const toast=m=>{const t=$("#toast");t.textContent=m;tr(t);t.hidden=false;clearTimeout(t.h);t.h=setTimeout(()=>t.hidden=true,3200)};
 const prem=()=>P&&P.premiumUntil&&P.premiumUntil.toMillis&&P.premiumUntil.toMillis()>Date.now();
 const done=()=>P?.done||[];
 const boom=()=>{if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;for(let i=0;i<36;i++){const s=document.createElement("span");s.className="cf";s.textContent=["🎉","✨","⭐","🎓"][i%4];s.style.left=Math.random()*100+"vw";s.style.animationDelay=Math.random()*.8+"s";document.body.append(s);setTimeout(()=>s.remove(),3600)}};
@@ -125,13 +125,100 @@ const ob=()=>{const en=O.esp==="EN",C=CT.find(c=>c[1]===O.pays),bk=`<button clas
  if(O.st===1)return `<div class="wrap">${bk}<h1 style="margin:8px 0">${en?"Choose your country":"Choisis ton pays"}</h1><p>${en?"Your exam, your dates, your papers.":"Ton examen, tes dates, tes épreuves."}</p><input placeholder="${en?"Search a country…":"Rechercher un pays…"}" oninput="flt(this.value)">${CT.map((c,i)=>c[0]===O.esp?`<div class="card cty row" data-n="${c[1].toLowerCase()}" style="cursor:pointer;margin:10px 0" onclick="op(${i})"><div style="display:flex;gap:14px;align-items:center"><span style="font-size:34px">${c[3]}</span><div><b>${c[1]}</b><p>${c[2]} • ${c[4].join(" • ")}</p></div></div><span>›</span></div>`:"").join("")}</div>`;
  const sr=seriesFor(O.exam),okv=O.exam&&(!sr.length||O.serie);
  return `<div class="wrap">${bk}<div class="gold row"><div style="display:flex;gap:12px;align-items:center"><span style="font-size:36px">${C[3]}</span><div><b style="font-size:19px">${C[1]}</b><p>${C[2]}</p></div></div><span class="pill">${en?"SPACE EN":"ESPACE FR"}</span></div><h1>${en?"Your class & exam":"Ta classe & ton examen"}</h1><p>${en?"Smart path, adapted to your country.":"Parcours intelligent, adapté à ton pays."}</p><h3 style="color:var(--gold);margin-top:16px">${en?"EXAM":"EXAMEN"}</h3><div class="g3" style="grid-template-columns:1fr 1fr">${C[4].map(x=>`<button class="opt" style="text-align:center;${O.exam===x?"background:#4b3600":""}" onclick="ox('${x}')">${x}</button>`).join("")}</div>${sr.length?`<h3 style="color:var(--gold);margin-top:16px">${en?"SERIES / TRACK":"SÉRIE / FILIÈRE"}</h3><div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">${sr.map(x=>`<button class="pill" style="padding:12px 18px;${O.serie===x?"background:var(--gold);color:#0B1535":""}" onclick="os('${x}')">${x}</button>`).join("")}</div>`:""}${okv?`<div class="card"><p>${en?"Your path":"Ton parcours"}</p><h2>${C[3]} ${C[1]} • ${O.exam}${O.serie?" "+O.serie:""}</h2><p>${en?"Your lessons, papers and quizzes will adapt to this choice.":"Tes cours, annales et quiz seront adaptés à ce choix."}</p></div>`:""}<button class="btn" ${okv?"":"disabled style='opacity:.4'"} onclick="ov()">${en?"Confirm my selection":"Valider ma sélection"} →</button></div>`};
+const lc=()=>S().esp==="EN"?"en-GB":"fr-FR";
+const X={"Accueil":"Home","Cours":"Lessons","Gratuit":"Free","GRATUIT":"FREE","Physique":"Physics","Hist-Géo":"History-Geography","ECM":"Civics","Français":"French","Débloquer":"Unlock"};
+const PR=`Bonjour, |Hello, 
+Compte à rebours • |Countdown • 
+La date officielle sera affichée ici.|The official date will be shown here.
+Avant l'examen. Courage !|Until the exam. You've got this!
+Date à confirmer|Date to be confirmed
+À confirmer|To be confirmed
+Temps restant|Time left
+Calendrier officiel|Official calendar
+Date officielle|Official date
+Mon Coach Intelligent|My Smart Coach
+Aperçu gratuit : 1er point faible.|Free preview: first weak point.
+Point faible|Weak point
+Travailler ce point →|Work on this →
+Plan complet réservé Premium|Full plan reserved for Premium
+Débloquer avec Premium - |Unlock with Premium - 
+Plan du jour|Today's plan
+1) Lire la fiche — |1) Read the note — 
+1) Refaire un quiz pour t'entraîner|1) Retake a quiz to practise
+Examen blanc complet|Full mock exam
+Mes progrès|My progress
+Petite révision ciblée, gros effet sur ton prochain quiz.|A short targeted revision, a big effect on your next quiz.
+Réviser maintenant|Revise now
+Progression générale|Overall progress
+Tes matières|Your subjects
+• Cours|• Lessons
+Accès rapide|Quick access
+Lancer un quiz|Start a quiz
+Voir les cours|See the lessons
+Dernières ressources|Latest resources
+Voir ma célébration|See my celebration
+Changer ma sélection|Change my selection
+Me déconnecter|Log out
+Physique-Chimie|Physics-Chemistry
+Cours & Fiches|Lessons & Notes
+Gratuit : 2 premières fiches par matière. Le reste est réservé Premium.|Free: first 2 notes per subject. The rest is Premium only.
+✅ lue|✅ read
+à lire|to read
+Débloque cette fiche avec Premium|Unlock this note with Premium
+← Retour|← Back
+Formules clés|Key formulas
+À retenir|To remember
+Méthode|Method
+Le contenu de cette fiche est en cours de rédaction.|This note's content is being written.
+Examens Blancs & Quiz|Mock Exams & Quiz
+Quiz gratuit : 5 questions • 5 minutes|Free quiz: 5 questions • 5 minutes
+Pas de pause, comme le jour J.|No pause, just like exam day.
+Correction immédiate après chaque réponse.|Instant correction after each answer.
+Questions et réponses mélangées à chaque essai.|Questions and answers shuffled at each attempt.
+Commencer l'épreuve|Start the test
+Quitter|Quit
+Question suivante →|Next question →
+Voir mon résultat|See my result
+Bonne réponse !|Correct answer!
+À revoir|To review
+Bravo, excellent !|Well done, excellent!
+Continue, tu progresses !|Keep going, you're improving!
+Ton diplôme de révision est débloqué.|Your revision diploma is unlocked.
+Relis les fiches, puis relance un quiz.|Re-read the notes, then retry a quiz.
+Recommencer — Nouvel ordre|Restart — New order
+Pass Premium|Premium Pass
+pour 30 jours|for 30 days
+Toutes les fiches de cours|All the lesson notes
+Corrigés complets et points de méthode|Full solutions and method points
+Quiz et examens blancs complets|Full quizzes and mock exams
+Ton Premium est actif|Your Premium is active
+Jusqu'au |Until 
+Payer |Pay 
+Paiement par |Payment via 
+Le Premium s'active automatiquement après le paiement.|Premium activates automatically after payment.
+Le paiement mobile money arrive bientôt.|Mobile money payment is coming soon.
+DIPLÔME DE RÉVISION|REVISION DIPLOMA
+Objectif atteint !|Goal reached!
+Félicitations, ton travail a payé !|Congratulations, your work paid off!
+Partager ma réussite|Share my success
+Retour à la révision|Back to revising
+Ton diplôme t'attend|Your diploma is waiting
+Obtiens au moins 4/5 à un quiz pour le débloquer.|Get at least 4/5 on a quiz to unlock it.
+Ton meilleur score :|Your best score:
+Contenu bientôt disponible|Content coming soon
+Les cours et quiz détaillés sont prêts pour le Togo BAC D. Ton parcours arrive bientôt.|Detailed lessons and quizzes are ready for Togo BAC D. Your path is coming soon.
+Voir un aperçu Togo BAC D|See a Togo BAC D preview
+Version gratuite|Free version
+Contenu en cours|Content in progress
+Progression non enregistrée.|Progress not saved.`.split("\n").map(l=>l.split("|")).sort((a,b)=>b[0].length-a[0].length);
+const tr=el=>{if(S().esp!=="EN"||!el)return;const w=document.createTreeWalker(el,NodeFilter.SHOW_TEXT);let n;while(n=w.nextNode()){let v=n.nodeValue;const t=v.trim();if(X[t]){n.nodeValue=v.replace(t,X[t]);continue}for(const[a,b]of PR)if(v.includes(a))v=v.split(a).join(b);n.nodeValue=v.replace(/Série de (\d+) jours?/,"$1-day streak").replace(/Ça fait (\d+) jours que tu n'as pas révisé\. 5 min de révision \?/,"It's been $1 days since you last revised. 5 min of revision?")}};
 function view(){window.rd0=1;clearInterval(tm);const A=$("#app"),N=$("#nav");if(!U){N.hidden=true;A.innerHTML=`<div class="wrap"><p class="logo">EXAM • BAC RÉUSSITE</p><h1 style="margin:14px 0 4px">Bienvenue dans ton espace</h1><p>Retrouve ta progression partout.</p>
  <button class="btn alt" onclick="goog()">Continuer avec Google</button><p style="text-align:center;margin:14px 0 4px">ou avec tes coordonnées</p>
  ${mode==="signup"?`<input id="nm" placeholder="Ton prénom" autocomplete="given-name"><div style="display:flex;gap:8px"><select id="op" style="flex:1"><option>Yas Money</option><option>Moov Money Togo</option></select><input id="ph" style="flex:1" inputmode="tel" placeholder="90 00 00 00"></div>`:""}
  <input id="em" type="email" placeholder="E-mail" autocomplete="email"><input id="pw" type="password" placeholder="Mot de passe" autocomplete="current-password">
  <button class="btn" onclick="go()">${mode==="signup"?"Créer mon compte":"Me connecter"}</button><button class="btn ghost" onclick="sw()">${mode==="signup"?"J'ai déjà un compte":"Je n'ai pas encore de compte"}</button></div>`;return}
  if(!P?.sel){N.hidden=true;A.innerHTML=ob();return}N.hidden=false;N.innerHTML=[["home","🏠","Accueil"],["cours","📖","Cours"],["quiz","⏱️","Quiz"],["prem","👑","Premium"]].map(([k,i,l])=>`<button class="${tab===k?"on":""}" onclick="tb('${k}')"><b>${i}</b>${l}</button>`).join("");
- const f={home:home,cours:cours,quiz:quiz,prem:premV,dip:dip}[tab];A.innerHTML=`<div class="wrap">${head()}${f()}</div>`}
+ const f={home:home,cours:cours,quiz:quiz,prem:premV,dip:dip}[tab];A.innerHTML=`<div class="wrap">${head()}${f()}</div>`;tr(A);tr(N)}
 const head=()=>`<div class="top"><span class="logo">BAC RÉUSSITE<br><small style="font-weight:400;letter-spacing:2px">INTERNATIONAL</small></span><span style="display:flex;gap:6px"><span class="pill ${prem()?"g":""}">${prem()?"PREMIUM 👑":"GRATUIT"}</span><span class="pill">${flag()}</span><span class="pill">${S().esp||"FR"}</span></span></div><p class="pill g" style="margin:12px 0 0;display:block;text-align:center">${flag()} ${(S().pays||"").toUpperCase()} - ${lab()} - ${hasC()?(prem()?"Premium":"Version gratuite 🔒"):"⚠️ Contenu en cours"}</p>`;
 window.tb=k=>{tab=k;openF=null;Q=null;view();scrollTo(0,0)};
 const SUBJ=[["Maths","Σ"],["Physique-Chimie","⚡"],["SVT","🧬"],["Hist-Géo","🌍"],["ECM","⚖️"],["Français","✍️"]];
@@ -139,11 +226,11 @@ const pct=m=>{const fs=FICHES.filter(x=>x.m===m&&x.p);if(!fs.length)return 0;con
 const col=p=>p>=75?"var(--ok)":p>=45?"var(--gold)":"var(--bad)";
 const ring=(p,l)=>`<div style="text-align:center"><div class="ring" style="--p:${p}"><b>${p}%</b></div><p style="margin-top:6px;color:#fff"><b>${l}</b></p></div>`;
 window.gof=id=>{tab="cours";rd(id)};
-function home(){const d=new Date(),dt=d.toLocaleDateString("fr-FR",{weekday:"long",day:"numeric",month:"long"}),left=DATE_EXAMEN?Math.ceil((new Date(DATE_EXAMEN)-d)/864e5):null,
+function home(){const d=new Date(),dt=d.toLocaleDateString(lc(),{weekday:"long",day:"numeric",month:"long"}),left=DATE_EXAMEN?Math.ceil((new Date(DATE_EXAMEN)-d)/864e5):null,
  ps=SUBJ.map(([m,i])=>({m,i,p:pct(m)})),weak=ps.slice(0,2).sort((a,b)=>a.p-b.p)[0],next=FICHES.find(x=>x.p&&!done().includes(x.id)),all=Math.round(ps.reduce((a,s)=>a+s.p,0)/ps.length),st=P?.streak||1;
  return `<p style="margin-top:16px">${dt}</p><h1>Bonjour, ${esc(P?.name||"")} 👋</h1>
  <div class="gold"><p>Compte à rebours • ${lab()}</p><h1 style="font-size:46px;margin:6px 0">${left===null?"Bientôt":"J-"+Math.max(left,0)}</h1><p>${left===null?"La date officielle sera affichée ici.":"Avant l'examen. Courage !"}</p><div class="bar"><i style="width:${left===null?0:Math.min(100,Math.round(left/1.8))}%"></i></div><div class="row"><p>${left===null?"Date à confirmer":"Temps restant"}</p><p>🔥 Série de ${st} jour${st>1?"s":""}</p></div></div>
- <div class="card"><h3>📅 Date officielle</h3><p>${S().pays} • Calendrier officiel</p><div style="background:var(--deep);border-radius:16px;padding:14px;margin-top:10px"><b>${lab()}</b><p>${DATE_EXAMEN?new Date(DATE_EXAMEN).toLocaleDateString("fr-FR",{day:"numeric",month:"long",year:"numeric"}):"À confirmer"}</p></div></div>
+ <div class="card"><h3>📅 Date officielle</h3><p>${S().pays} • Calendrier officiel</p><div style="background:var(--deep);border-radius:16px;padding:14px;margin-top:10px"><b>${lab()}</b><p>${DATE_EXAMEN?new Date(DATE_EXAMEN).toLocaleDateString(lc(),{day:"numeric",month:"long",year:"numeric"}):"À confirmer"}</p></div></div>
  <div class="card"><div class="row"><h3>🧠 Mon Coach Intelligent</h3><span class="pill">${prem()?"👑":"🔒"} PREMIUM</span></div><p>Aperçu gratuit : 1er point faible.</p><div style="background:#3a2850;border-radius:18px;padding:14px;margin-top:10px"><p style="color:#f9a8a8;font-weight:800">Point faible</p><h3>${weak.m} — ${weak.p}%</h3><button class="btn" style="background:var(--bad);color:#fff;width:auto;padding:10px 18px" onclick="tb('cours')">Travailler ce point →</button></div>${prem()?"":`<div style="background:#1a2a5c;border-radius:18px;padding:16px;margin-top:10px;text-align:center"><div style="font-size:30px">🔒</div><b>Plan complet réservé Premium</b><button class="btn alt" onclick="tb('prem')">Débloquer avec Premium - ${PRIX}</button></div>`}</div>
  <div class="card"><h3>Plan du jour</h3><div class="row" style="margin-top:10px"><span class="pill">20 min</span><p style="color:#fff;flex:1">${next?"1) Lire la fiche — "+next.t:"1) Refaire un quiz pour t'entraîner"}</p><button class="pill" onclick="${next?`gof('${next.id}')`:"tb('quiz')"}">Go →</button></div><div class="row" style="margin-top:12px;background:var(--deep);border-radius:16px;padding:12px"><span>🔒</span><p style="flex:1">Examen blanc complet</p>${prem()?"":`<button class="pill" onclick="tb('prem')">Débloquer</button>`}</div></div>
  <div class="card"><h3>Mes progrès</h3>${ps.map(s=>`<div class="row" style="margin-top:10px"><b>${s.m}</b><b>${s.p}%</b></div><div class="bar"><i style="width:${s.p}%;background:${col(s.p)}"></i></div>`).join("")}</div>
@@ -167,7 +254,7 @@ window.nx=()=>{if(Q.i<4){Q.i++;Q.a=null}else{Q.end=1;fin()}view();scrollTo(0,0)}
 const fin=()=>{clearInterval(tm);if(Q.score>(P?.best||0))save({best:Q.score})};
 function premV(){return `<h2 style="margin-top:18px">Pass Premium</h2><div class="gold"><h1>${PRIX}</h1><p>pour ${JOURS} jours</p></div>
  <div class="card"><p>✅ Toutes les fiches de cours</p><p>✅ Corrigés complets et points de méthode</p><p>✅ Quiz et examens blancs complets</p></div>
- ${prem()?`<div class="card"><h3>Ton Premium est actif 👑</h3><p>Jusqu'au ${P.premiumUntil.toDate().toLocaleDateString("fr-FR")}</p></div>`:`<button class="btn" onclick="toast('Le paiement mobile money arrive bientôt.')">Payer ${PRIX}</button><p style="text-align:center;margin-top:10px">Paiement par ${P?.operator||"mobile money"}. Le Premium s'active automatiquement après le paiement.</p>`}`}
+ ${prem()?`<div class="card"><h3>Ton Premium est actif 👑</h3><p>Jusqu'au ${P.premiumUntil.toDate().toLocaleDateString(lc())}</p></div>`:`<button class="btn" onclick="toast('Le paiement mobile money arrive bientôt.')">Payer ${PRIX}</button><p style="text-align:center;margin-top:10px">Paiement par ${P?.operator||"mobile money"}. Le Premium s'active automatiquement après le paiement.</p>`}`}
 function dip(){const ok=(P?.best||0)>=4;if(ok&&!window.d1){window.d1=1;setTimeout(boom,300)}
  return ok?`<div style="text-align:center;margin-top:24px"><div style="font-size:70px">🎓</div><p class="logo" style="letter-spacing:3px">DIPLÔME DE RÉVISION</p><h1 style="margin:8px 0">Objectif atteint !</h1><div class="card"><h2>${esc(P.name)}</h2><p style="color:var(--gold);font-weight:800">${lab()} • ${S().pays}</p><p style="font-size:26px">⭐⭐⭐⭐⭐</p><p>Félicitations, ton travail a payé !</p></div></div><button class="btn" onclick="sh()">Partager ma réussite</button><button class="btn ghost" onclick="tb('cours')">Retour à la révision</button>`
  :`<div style="text-align:center;margin-top:30px"><div style="font-size:64px">🔒</div><h1>Ton diplôme t'attend</h1><p>Obtiens au moins 4/5 à un quiz pour le débloquer.<br>Ton meilleur score : ${P?.best||0}/5.</p></div><button class="btn" onclick="tb('quiz')">Lancer un quiz</button>`}
