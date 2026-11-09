@@ -32,10 +32,6 @@ nav button.on{color:var(--gold);background:var(--card)}
 .opt{display:block;width:100%;text-align:left;padding:16px;border-radius:18px;background:var(--card);margin:9px 0;font-weight:700;transition:background .25s,transform .15s}
 .opt:active{transform:scale(.98)}.opt.ok{background:var(--ok);color:#06281c}.opt.bad{background:var(--bad);color:#3a0c0c}
 .lock{filter:blur(4px);user-select:none}
-#splash{position:fixed;inset:0;background:radial-gradient(circle at 50% 35%,#1b2c66,#0B1535 70%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;z-index:20;transition:opacity .5s}
-#splash .globe{font-size:84px;animation:pop 1.2s ease both}
-#splash .ld{width:60%;height:8px;border-radius:9px;background:#0A1129;overflow:hidden}
-#splash .ld i{display:block;height:100%;width:0;background:var(--gold);animation:ld 1.6s ease forwards}
 @keyframes ld{to{width:100%}}@keyframes pop{0%{transform:scale(.4);opacity:0}70%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
 .cf{position:fixed;top:-30px;font-size:26px;animation:fall 2.6s linear forwards;z-index:30;pointer-events:none}
 @keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
@@ -43,8 +39,20 @@ nav button.on{color:var(--gold);background:var(--card)}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 .ring{width:96px;height:96px;border-radius:50%;margin:0 auto;background:conic-gradient(var(--gold) calc(var(--p)*1%),#243468 0);display:grid;place-items:center}.ring b{width:74px;height:74px;border-radius:50%;background:var(--card);display:grid;place-items:center;font-size:20px}
 .g3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.tile{background:var(--card);border-radius:18px;padding:14px 10px;cursor:pointer}.row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.sp{position:fixed;inset:0;background:radial-gradient(circle at 25% 15%,#1d2f6b,#0B1535 62%);display:flex;flex-direction:column;justify-content:space-between;padding:calc(26px + env(safe-area-inset-top)) 22px 26px;z-index:20;text-align:center;transition:opacity .5s;cursor:pointer;overflow:auto}
+.sp-top{display:flex;justify-content:space-between;color:#F7D56B;letter-spacing:2px;font-weight:800;font-size:15px}
+.sp-c{position:relative;width:210px;height:210px;border-radius:50%;background:#F5C518;margin:10px auto 0;display:grid;place-items:center;box-shadow:0 0 70px #f5c51840;animation:pop 1s ease both}
+.sp-c .globe{font-size:120px;line-height:1}
+.sp-b{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:#111;padding:8px 16px;border-radius:99px;font-weight:800;font-size:14px;white-space:nowrap}
+.sp-x{font-size:64px;font-weight:900;margin-top:20px;letter-spacing:-1px}.sp-s{color:#F7D56B;letter-spacing:4px;font-weight:800;font-size:15px}
+.sp-p{color:#cfd8f0;font-size:18px;margin:14px 0}
+.sp-k{display:flex;align-items:center;gap:12px;background:#0e1a3d;border:1px solid #1d2b5e;border-radius:26px;padding:16px;text-align:left}
+.sp-k p{margin:2px 0 0}.sp-bar i{width:0;background:#E8B612}
 </style></head><body>
-<div id="splash"><div class="globe">🌍</div><h1 style="color:var(--gold);text-align:center">BAC RÉUSSITE<br>INTERNATIONAL</h1><p>Révise, progresse, réussis.</p><div class="ld"><i></i></div></div>
+<div id="splash" class="sp" onclick="endSplash()"><div class="sp-top"><span>WEST AFRICA</span><span>2026 • EXAM</span></div>
+<div><div class="sp-c"><span class="sp-b">🎓 100% RÉUSSITE</span><span class="globe">🌍</span></div><div class="sp-x">EXAM</div><div class="sp-s">BAC RÉUSSITE INTERNATIONAL</div><p class="sp-p">Révise, progresse et réussis ton examen — où que tu sois en Afrique de l’Ouest.</p></div>
+<div><div class="sp-k"><span style="font-size:46px">🎉</span><div style="flex:1"><b style="font-size:19px">👩🏽‍🎓 👨🏽‍🎓 Ils célèbrent déjà...</b><p>Rejoins les élèves motivés.</p></div><span style="font-size:42px">⭐</span></div>
+<div class="top" style="margin-top:22px"><b>Chargement de ta réussite...</b><b id="pc" style="color:#E8B612">0%</b></div><div class="bar sp-bar"><i id="pb"></i></div><p style="margin-top:14px">Toucher pour continuer →</p></div></div>
 <div id="app"></div><nav id="nav" hidden></nav><div id="toast" hidden></div>
 <script type="module">
 import {initializeApp} from "https://www.gstatic.com/firebasejs/13.2.0/firebase-app.js";
@@ -70,6 +78,8 @@ const QS=[
 
 const $=s=>document.querySelector(s);
 let U=null,P=null,tab="home",mode="signup",pend={},Q=null,openF=null,tm=null;
+let n=0;const iv=setInterval(()=>{n=Math.min(100,n+2);$("#pc").textContent=n+"%";$("#pb").style.width=n+"%";if(n>=100)clearInterval(iv)},60);
+window.endSplash=()=>{const s=$("#splash");if(!s)return;s.style.opacity=0;setTimeout(()=>s.remove(),500)};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toast=m=>{const t=$("#toast");t.textContent=m;t.hidden=false;clearTimeout(t.h);t.h=setTimeout(()=>t.hidden=true,3200)};
 const prem=()=>P&&P.premiumUntil&&P.premiumUntil.toMillis&&P.premiumUntil.toMillis()>Date.now();
@@ -89,8 +99,7 @@ const tick=async()=>{const t=new Date().toISOString().slice(0,10),y=new Date(Dat
 const save=async d=>{Object.assign(P,d);try{await updateDoc(doc(db,"users",U.uid),d)}catch(e){toast("Progression non enregistrée.")}};
 
 /* ===== Écrans ===== */
-function view(){clearInterval(tm);const A=$("#app"),N=$("#nav");setTimeout(()=>{const s=$("#splash");s.style.opacity=0;setTimeout(()=>s.remove(),500)},1700);
- if(!U){N.hidden=true;A.innerHTML=`<div class="wrap"><p class="logo">EXAM • BAC RÉUSSITE</p><h1 style="margin:14px 0 4px">Bienvenue dans ton espace</h1><p>Retrouve ta progression partout.</p>
+function view(){clearInterval(tm);const A=$("#app"),N=$("#nav");if(!U){N.hidden=true;A.innerHTML=`<div class="wrap"><p class="logo">EXAM • BAC RÉUSSITE</p><h1 style="margin:14px 0 4px">Bienvenue dans ton espace</h1><p>Retrouve ta progression partout.</p>
  <button class="btn alt" onclick="goog()">Continuer avec Google</button><p style="text-align:center;margin:14px 0 4px">ou avec tes coordonnées</p>
  ${mode==="signup"?`<input id="nm" placeholder="Ton prénom" autocomplete="given-name"><div style="display:flex;gap:8px"><select id="op" style="flex:1"><option>Yas Money</option><option>Moov Money Togo</option></select><input id="ph" style="flex:1" inputmode="tel" placeholder="90 00 00 00"></div>`:""}
  <input id="em" type="email" placeholder="E-mail" autocomplete="email"><input id="pw" type="password" placeholder="Mot de passe" autocomplete="current-password">
