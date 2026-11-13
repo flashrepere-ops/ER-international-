@@ -1,5 +1,5 @@
-const C="bacr-v3",FB="https://www.gstatic.com/firebasejs/13.2.0/";
-const LOCAL=["./","./index.html","./manifest.webmanifest","./icon-192.png?v=2","./icon-512.png?v=2"];
+const C="bacr-v4",FB="https://www.gstatic.com/firebasejs/13.2.0/";
+const LOCAL=["./","./index.html","./manifest.webmanifest","./icon-192.png?v=3","./icon-512.png?v=3","./icon-maskable-192.png?v=3","./icon-maskable-512.png?v=3","./apple-touch-icon.png?v=3"];
 const EXT=[FB+"firebase-app.js",FB+"firebase-auth.js",FB+"firebase-firestore.js"];
 async function warm(c){const seen=new Set(),q=[...EXT];while(q.length&&seen.size<80){const u=q.shift();if(seen.has(u))continue;seen.add(u);try{const r=await fetch(u,{mode:"cors"});if(!r.ok)continue;await c.put(u,r.clone());const t=await r.text();for(const m of t.matchAll(/(?:from|import)\s*\(?\s*["']((?:https:\/\/www\.gstatic\.com\/firebasejs\/|\.\.?\/)[^"']+\.js)["']/g)){const n=new URL(m[1],u).href;if(!seen.has(n))q.push(n)}}catch(e){}}}
 self.addEventListener("install",e=>{e.waitUntil(caches.open(C).then(async c=>{await Promise.all(LOCAL.map(u=>c.add(u).catch(()=>{})));await warm(c)}).then(()=>self.skipWaiting()))});
