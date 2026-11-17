@@ -83,6 +83,52 @@ textarea{width:100%;padding:14px;border-radius:16px;background:var(--deep);borde
 .ops{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}.opt2{flex:1;min-width:140px;display:flex;align-items:center;justify-content:center;gap:8px;padding:16px;border-radius:20px;background:#17171c;color:#fff;font-weight:800}.opt2.on{background:#4b3600}
 .opb{display:inline-grid;place-items:center;min-width:30px;height:30px;padding:0 4px;border-radius:50%;font-weight:900;font-size:12px}
 .rinfo{background:#2b2204;border-radius:16px;padding:16px;margin:16px 0 8px;font-weight:700;color:#fff}.warn2{background:#3a2230;color:#f9a8a8;border-radius:14px;padding:12px;font-weight:800;margin-top:10px;text-align:center}
+
+/* ===== Liquid Glass (inspiré d'iOS 27) ===== */
+@property --p{syntax:"<number>";inherits:false;initial-value:0}
+:root{--ga:.09;--gb:.14}
+body[data-glass="clear"]{--ga:.04;--gb:.10}body[data-glass="tinted"]{--ga:.2;--gb:.22}
+body{font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",Roboto,system-ui,sans-serif;padding-bottom:124px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:-25%;z-index:-1;pointer-events:none;background:radial-gradient(38% 32% at 18% 14%,rgba(139,92,246,.42),transparent 70%),radial-gradient(34% 30% at 88% 22%,rgba(232,182,18,.24),transparent 70%),radial-gradient(44% 38% at 72% 88%,rgba(236,72,153,.26),transparent 70%),radial-gradient(40% 34% at 10% 80%,rgba(56,189,248,.18),transparent 70%);animation:aur 26s ease-in-out infinite alternate}
+@keyframes aur{0%{transform:translate3d(0,0,0) rotate(0) scale(1)}50%{transform:translate3d(3%,-2%,0) rotate(6deg) scale(1.08)}100%{transform:translate3d(-3%,3%,0) rotate(-5deg) scale(1.04)}}
+h1,h2{letter-spacing:-.025em;font-weight:800}
+.card,.tile,.rule,.opt:not(.ok):not(.bad){background:linear-gradient(150deg,rgba(255,255,255,calc(var(--ga) + .03)),rgba(255,255,255,calc(var(--ga) - .03)));border:1px solid rgba(255,255,255,var(--gb));box-shadow:inset 0 1px 0 rgba(255,255,255,.18),inset 0 -1px 0 rgba(0,0,0,.2),0 12px 32px rgba(0,0,0,.26);border-radius:28px}
+.btn{background:linear-gradient(180deg,#F8CC2B,#E4A800);border-radius:22px;box-shadow:0 8px 22px rgba(232,182,18,.28),inset 0 1px 0 rgba(255,255,255,.5)}
+.btn.alt,.btn.dk{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14)}
+input,select,textarea{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16)}
+.wrap>.hd{position:sticky;top:0;z-index:20;margin:-18px -18px 0;padding:calc(12px + env(safe-area-inset-top)) 18px 10px;background:rgba(11,21,53,.55);-webkit-backdrop-filter:blur(20px) saturate(1.6);backdrop-filter:blur(20px) saturate(1.6);border-bottom:1px solid rgba(255,255,255,.08)}
+nav{left:12px;right:12px;bottom:calc(10px + env(safe-area-inset-bottom));max-width:496px;margin:0 auto;background:rgba(18,26,58,.55);-webkit-backdrop-filter:blur(22px) saturate(1.7);backdrop-filter:blur(22px) saturate(1.7);border:1px solid rgba(255,255,255,.18);border-radius:32px;padding:6px;box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 1px 0 rgba(255,255,255,.22)}
+nav button{position:relative;z-index:1;background:none;min-width:0;flex:1;padding:6px 2px}nav button.on{background:none;color:var(--gold)}
+nav .ind{position:absolute;top:6px;bottom:6px;left:0;background:linear-gradient(160deg,rgba(255,255,255,.22),rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.26);border-radius:26px;box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 4px 14px rgba(0,0,0,.25);transition:transform .55s cubic-bezier(.34,1.35,.64,1),width .55s cubic-bezier(.34,1.35,.64,1);z-index:0;pointer-events:none}
+@keyframes rise{from{opacity:0;transform:translateY(22px) scale(.98)}to{opacity:1;transform:none}}
+.wrap.enter>*:not(.hd):not(.pg),.wrap.enter .pg>*{animation:rise .65s cubic-bezier(.22,1,.36,1) both}
+.wrap.enter .pg>*:nth-child(2){animation-delay:0.04s}
+.wrap.enter .pg>*:nth-child(3){animation-delay:0.08s}
+.wrap.enter .pg>*:nth-child(4){animation-delay:0.12s}
+.wrap.enter .pg>*:nth-child(5){animation-delay:0.16s}
+.wrap.enter .pg>*:nth-child(6){animation-delay:0.20s}
+.wrap.enter .pg>*:nth-child(7){animation-delay:0.24s}
+.wrap.enter .pg>*:nth-child(8){animation-delay:0.28s}
+.wrap.enter .pg>*:nth-child(n+9){animation-delay:.34s}
+button,.tile,.card[onclick],.opt{transition:transform .35s cubic-bezier(.34,1.56,.64,1),background .25s,box-shadow .25s;-webkit-tap-highlight-color:transparent}
+.btn:active,.tile:active,.opt:active,.pill:active,.card[onclick]:active,nav button:active,.fch:active,.amt:active,.opt2:active{transform:scale(.95)}
+@keyframes pop{0%{transform:scale(.96)}60%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:none}25%{transform:translateX(-7px)}55%{transform:translateX(6px)}80%{transform:translateX(-3px)}}
+.opt.ok{animation:pop .45s}.opt.bad{animation:shake .4s}
+.bar{background:rgba(255,255,255,.09)}.bar i{transition:width 1.1s cubic-bezier(.22,1,.36,1);background-image:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.4),rgba(255,255,255,0));background-size:220% 100%;animation:shine 2.8s linear infinite}
+@keyframes shine{from{background-position:220% 0}to{background-position:-120% 0}}
+.ring{transition:--p 1.2s cubic-bezier(.22,1,.36,1)}
+.gold{position:relative;overflow:hidden;box-shadow:0 16px 40px rgba(217,163,12,.28),inset 0 1px 0 rgba(255,255,255,.35)}
+.gold::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.24) 50%,transparent 68%);transform:translateX(-130%);animation:sweep 6s ease-in-out infinite}
+@keyframes sweep{0%,55%{transform:translateX(-130%)}100%{transform:translateX(130%)}}
+@keyframes up{from{transform:translateY(46px);opacity:0}to{transform:none;opacity:1}}@keyframes fade{from{opacity:0}to{opacity:1}}
+.shd{animation:up .5s cubic-bezier(.22,1,.36,1)}.ovl{animation:fade .3s}#np>.card{animation:up .5s cubic-bezier(.22,1,.36,1)}
+#toast:not([hidden]){animation:up .4s cubic-bezier(.34,1.56,.64,1)}
+.sp{background:radial-gradient(60% 45% at 25% 15%,rgba(139,92,246,.55),transparent 70%),radial-gradient(55% 40% at 85% 30%,rgba(232,182,18,.3),transparent 70%),radial-gradient(60% 45% at 60% 95%,rgba(236,72,153,.4),transparent 70%),#0B1535;transition:opacity .45s,transform .5s cubic-bezier(.22,1,.36,1)}
+.sp-c{background:radial-gradient(circle at 32% 28%,#ffe27a,#F5C518 55%,#d99a00);box-shadow:0 0 80px rgba(245,197,24,.45),inset 0 4px 14px rgba(255,255,255,.6),inset 0 -10px 24px rgba(0,0,0,.22)}
+.sp-top,.sp-x,.sp-s,.sp-p,.sp-k{animation:rise .8s cubic-bezier(.22,1,.36,1) both}.sp-x{animation-delay:.15s}.sp-s{animation-delay:.25s}.sp-p{animation-delay:.35s}.sp-k{animation-delay:.45s;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.2)}
+.sp .bar{background:rgba(255,255,255,.14)}.sp-bar i{background-image:none;background:linear-gradient(90deg,#ffd75e,#F5C518);box-shadow:0 0 14px rgba(245,197,24,.8);animation:none}
 </style></head><body>
 <div id="splash" class="sp" onclick="endSplash()"><div class="sp-top"><span>WEST AFRICA</span><span id="yr">2027 • EXAM</span></div>
 <div><div class="sp-c"><span class="sp-b">🎓 100% RÉUSSITE</span><span class="globe">🌍</span></div><div class="sp-x">EXAM</div><div class="sp-s">BAC RÉUSSITE INTERNATIONAL</div><p class="sp-p">Révise, progresse et réussis ton examen — où que tu sois en Afrique de l’Ouest.</p></div>
@@ -168,7 +214,7 @@ const $=s=>document.querySelector(s);
 let U=null,P=null,tab="home",mode="signup",pend={},Q=null,openF=null,tm=null;
 {const d=new Date();$("#yr").textContent=(d.getMonth()>=7?d.getFullYear()+1:d.getFullYear())+" • EXAM"}
 const t0=performance.now(),spf=t=>{const p=Math.min(1,(t-t0)/2000);$("#pc").textContent=Math.round(p*100)+"%";$("#pb").style.width=p*100+"%";if(p<1)requestAnimationFrame(spf);else{const g=()=>window.rd0?endSplash():setTimeout(g,80);setTimeout(g,250)}};requestAnimationFrame(spf);setTimeout(()=>endSplash(),4500);
-window.endSplash=()=>{const s=$("#splash");if(!s)return;s.style.opacity=0;setTimeout(()=>s.remove(),400)};
+window.endSplash=()=>{const s=$("#splash");if(!s)return;s.style.opacity=0;s.style.transform="scale(1.07)";setTimeout(()=>s.remove(),450)};
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const toast=m=>{const t=$("#toast");t.textContent=m;tr(t);t.hidden=false;clearTimeout(t.h);t.h=setTimeout(()=>t.hidden=true,3200)};
 const prem=()=>P&&P.premiumUntil&&P.premiumUntil.toMillis&&P.premiumUntil.toMillis()>Date.now();
@@ -307,6 +353,10 @@ Filtrer par matière|Filter by subject
 Mix • Toutes les matières|Mix • All subjects
 Date estimée — en attente du calendrier officiel.|Estimated date — waiting for the official calendar.
 (estimation)|(estimate)
+Aspect du verre|Glass look
+Règle la transparence des cartes, comme sur iOS 27.|Adjust the card transparency, like on iOS 27.
+Transparent|Clear
+Teinté|Tinted
 Pas de pause : comme le jour J.|No pause, just like exam day.
 Explication claire pour progresser.|Clear explanation to help you improve.
 Nouvel ordre à chaque tentative : questions et réponses mélangées.|New order at each attempt: shuffled questions and answers.
@@ -474,6 +524,7 @@ const outV=()=>{const x=sosFiche(),du=Math.max(30,Math.round(sosText(x).length/1
 <div class="card"><h3>🏆 Classement ${flag()} ${S().pays}</h3><p>Compare-toi aux élèves de ton pays (prénom et points seulement). Tu as ${pts()} pts.</p><button class="btn" onclick="lbShow()">Voir le classement</button><div id="lbL"></div><button class="btn ghost" onclick="lbOpt()">${P?.lbOff?"Réapparaître au classement":"Ne pas apparaître au classement"}</button></div>
 <div class="card"><h3>🔔 Rappel quotidien</h3><p>Reçois un rappel pour réviser. Il fonctionne quand l'app est installée sur le téléphone (Chrome Android).</p><button class="btn ${P?.rem?"alt":""}" onclick="rmd()">${P?.rem?"✅ Rappel activé — désactiver":"Activer le rappel"}</button></div>
 <div class="card"><h3>📥 Mode hors connexion</h3><p>Vérifie que tout est enregistré sur ton téléphone pour réviser sans internet.</p><button class="btn alt" onclick="offChk()">Préparer / vérifier</button><p id="offS" style="margin-top:8px"></p></div>
+<div class="card"><h3>Aspect du verre</h3><p>Règle la transparence des cartes, comme sur iOS 27.</p><div class="chips2" style="justify-content:flex-start;margin-top:12px">${[["clear","Transparent"],["default","Normal"],["tinted","Teinté"]].map(([k,l])=>`<button class="fch ${(document.body.dataset.glass||"default")===k?"on":""}" onclick="gl('${k}')">${l}</button>`).join("")}</div></div>
 <div class="card"><h3>📤 Partager l'app</h3><p>Invite un ami à réviser avec toi.</p><button class="btn" onclick="shApp()">Partager</button></div>
 <div class="card"><h3>🌐 Mon espace</h3><p>${flag()} ${S().pays} • ${lab()}</p><button class="btn alt" onclick="chg()">Changer ma sélection</button></div>
 <button class="btn" style="background:linear-gradient(90deg,#8B5CF6,#EC4899);color:#fff" onclick="tb('dip')">🏆 Voir ma célébration</button>
@@ -483,13 +534,22 @@ window.shApp=()=>{const t="Révise ton examen avec BAC Réussite International !
 const todayS=()=>new Date().toISOString().slice(0,10),unseen=()=>P?.seen!==todayS();
 const notifs=()=>{const E=exInfo(),a=[],st=P?.streak||1;if(E.left!==null)a.push(["⏳","J-"+E.left+" avant ton examen ("+E.txt+")"]);if(window.gap>=2)a.push(["⏰","Ça fait "+window.gap+" jours que tu n'as pas révisé. 5 min de révision ?"]);a.push(["🔥","Série de "+st+" jour"+(st>1?"s":"")]);if(!prem())a.push(["👑","Passe Premium pour débloquer toutes les fiches et les corrigés."]);return a};
 window.nt=()=>{const d=document.createElement("div");d.id="np";d.style.cssText="position:fixed;inset:0;background:#000a;z-index:30;display:flex;align-items:flex-start;justify-content:center;padding:70px 16px";d.onclick=()=>{d.remove();view()};d.innerHTML=`<div class="card" style="width:100%;max-width:480px" onclick="event.stopPropagation()"><div class="row"><h3>🔔 Notifications</h3><button class="pill" onclick="document.getElementById('np').click()">✕</button></div>${notifs().map(n=>`<div class="row" style="justify-content:flex-start;margin-top:12px;background:var(--deep);border-radius:16px;padding:12px"><span style="font-size:24px">${n[0]}</span><p style="color:#fff">${n[1]}</p></div>`).join("")}</div>`;document.body.append(d);tr(d);if(unseen())save({seen:todayS()})};
+const NAVS=[["home","<svg viewBox='0 0 24 24'><path d='M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'/></svg>","Accueil","Home"],["cours","<svg viewBox='0 0 24 24'><path d='M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2zM12 6v14'/></svg>","Cours","Lessons"],["ann","<svg viewBox='0 0 24 24'><path d='M6 2h8l5 5v15H6zM14 2v5h5M9 12h6M9 16h6'/></svg>","Annales","Papers"],["quiz","<svg viewBox='0 0 24 24'><circle cx='12' cy='13' r='8'/><path d='M12 9v4l2 2M9 2h6'/></svg>","Quiz","Quiz"],["prem","<svg viewBox='0 0 24 24'><path d='M3 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l3-3h11v3M16 14h2'/></svg>","Wallet","Wallet"],["out","<svg viewBox='0 0 24 24'><path d='M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8 6.2 21l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.4-.6-.6-2.4z'/></svg>","Outils","Tools"]];
+const moveInd=()=>{const N=document.querySelector("#nav"),b=N.querySelector(".on"),i=N.querySelector(".ind");if(b&&i&&b.offsetWidth){i.style.width=b.offsetWidth+"px";i.style.transform="translateX("+b.offsetLeft+"px)"}};
+const growAll=r=>{r.querySelectorAll(".bar i").forEach(i=>{const w=i.style.width;if(!w)return;i.style.width="0%";i.getBoundingClientRect();requestAnimationFrame(()=>{i.style.width=w})});r.querySelectorAll(".ring").forEach(g=>{const p=g.style.getPropertyValue("--p");g.style.setProperty("--p","0");g.getBoundingClientRect();requestAnimationFrame(()=>g.style.setProperty("--p",p))})};
+try{document.body.dataset.glass=localStorage.getItem("bacr_glass")||"default"}catch(e){}
+window.gl=m=>{try{localStorage.setItem("bacr_glass",m)}catch(e){}document.body.dataset.glass=m;view()};
+addEventListener("resize",()=>{try{moveInd()}catch(e){}});
+addEventListener("click",e=>{try{if(e.target.closest&&e.target.closest("button,.tile,.opt,.card[onclick]")&&navigator.vibrate)navigator.vibrate(8)}catch(x){}},true);
+try{new MutationObserver(()=>{const w=document.querySelector("#app>.wrap");if(w&&!w.querySelector(":scope>.pg")&&!w.classList.contains("enter"))w.classList.add("enter")}).observe(document.querySelector("#app"),{childList:true})}catch(e){}
 function view(){window.rd0=1;clearInterval(tm);const A=$("#app"),N=$("#nav");if(!U){N.hidden=true;A.innerHTML=`<div class="wrap"><p class="logo">EXAM • BAC RÉUSSITE</p><h1 style="margin:14px 0 4px">Bienvenue dans ton espace</h1><p>Retrouve ta progression partout.</p>
  <button class="btn alt" onclick="goog()">Continuer avec Google</button><p style="text-align:center;margin:14px 0 4px">ou avec tes coordonnées</p>
  ${mode==="signup"?`<input id="nm" placeholder="Ton prénom" autocomplete="given-name"><div style="display:flex;gap:8px"><select id="op" style="flex:1"><option>Yas Money</option><option>Moov Money Togo</option></select><input id="ph" style="flex:1" inputmode="tel" placeholder="90 00 00 00"></div>`:""}
  <input id="em" type="email" placeholder="E-mail" autocomplete="email"><input id="pw" type="password" placeholder="Mot de passe" autocomplete="current-password">
  <button class="btn" onclick="go()">${mode==="signup"?"Créer mon compte":"Me connecter"}</button><button class="btn ghost" onclick="sw()">${mode==="signup"?"J'ai déjà un compte":"Je n'ai pas encore de compte"}</button></div>`;return}
- if(!P?.sel){N.hidden=true;A.innerHTML=ob();return}N.hidden=false;N.innerHTML=[["home","<svg viewBox='0 0 24 24'><path d='M3 11l9-8 9 8v9a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z'/></svg>","Accueil"],["cours","<svg viewBox='0 0 24 24'><path d='M12 6c-2-1.5-5-2-8-2v14c3 0 6 .5 8 2 2-1.5 5-2 8-2V4c-3 0-6 .5-8 2zM12 6v14'/></svg>","Cours"],["ann","<svg viewBox='0 0 24 24'><path d='M6 2h8l5 5v15H6zM14 2v5h5M9 12h6M9 16h6'/></svg>","Annales"],["quiz","<svg viewBox='0 0 24 24'><circle cx='12' cy='13' r='8'/><path d='M12 9v4l2 2M9 2h6'/></svg>","Quiz"],["prem","<svg viewBox='0 0 24 24'><path d='M3 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l3-3h11v3M16 14h2'/></svg>","Wallet"],["out","<svg viewBox='0 0 24 24'><path d='M14.7 6.3a4 4 0 0 0-5.4 5.2L3 17.8 6.2 21l6.3-6.3a4 4 0 0 0 5.2-5.4l-2.5 2.5-2.4-.6-.6-2.4z'/></svg>","Outils"]].map(([k,i,l])=>`<button class="${tab===k?"on":""}" onclick="tb('${k}')"><b>${i}</b>${l}</button>`).join("");
- const f={home:home,cours:cours,ann:annV,quiz:quiz,prem:premV,out:outV,dip:dip}[tab];A.innerHTML=`<div class="wrap">${head()}${f()}</div>`;tr(A);tr(N);offUp()}
+ if(!P?.sel){N.hidden=true;A.innerHTML=ob();return}N.hidden=false;if(!N.dataset.b){N.dataset.b=1;N.innerHTML="<i class='ind'></i>"+NAVS.map(x=>`<button data-k="${x[0]}" onclick="tb('${x[0]}')"><b>${x[1]}</b><span></span></button>`).join("")}
+ N.querySelectorAll("button").forEach(b=>{const x=NAVS.find(y=>y[0]===b.dataset.k);b.className=tab===b.dataset.k?"on":"";b.querySelector("span").textContent=lg()==="EN"?x[3]:x[2]});moveInd();
+ const f={home:home,cours:cours,ann:annV,quiz:quiz,prem:premV,out:outV,dip:dip}[tab];const key=tab+"|"+(openF||"")+"|"+(window.ao||"")+"|"+(Q?Q.i+"-"+(Q.end?1:0):"");const anim=key!==window.lk;window.lk=key;A.innerHTML=`<div class="wrap${anim?" enter":""}">${head()}<div class="pg">${f()}</div></div>`;tr(A);tr(N);offUp();requestAnimationFrame(()=>{moveInd();if(anim)growAll(A)})}
 const CUR=()=>({Togo:"XOF","Bénin":"XOF","Côte d'Ivoire":"XOF","Burkina Faso":"XOF","Sénégal":"XOF",Mali:"XOF",Niger:"XOF","Guinée-Bissau":"XOF",Cameroun:"XAF",Tchad:"XAF",Congo:"XAF",Gabon:"XAF","Guinée Équatoriale":"XAF",RCA:"XAF","Guinée":"GNF",Mauritanie:"MRU",Ghana:"GHS",Nigeria:"NGN",Liberia:"LRD","Sierra Leone":"SLE",Gambia:"GMD"})[S().pays]||"XOF";
 const head=()=>`<div class="hd"><div class="lg"><span class="lgb">EX<br>AM</span><span class="logo">BAC<br>RÉUSSITE<br><small style="font-weight:400;letter-spacing:2px">INTERNATIONAL</small></span></div><div class="chips"><span class="pill wal" onclick="tb('prem')"><svg viewBox="0 0 24 24"><path d="M3 7h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zM3 7l3-3h11v3M16 14h2"/></svg><span>${fmt(SOL())}<br>F CFA</span></span><span class="pill ${prem()?"g":""}">${prem()?"PREMIUM 👑":"GRATUIT"}</span><span class="pill gld">${flag()}<br>${CUR()}</span><span class="pill" style="background:#111">文A ${lg()}</span></div></div><p class="bn ${hasC()?"ok":"warn"}">${hasC()?`${flag()} ${(S().pays||"").toUpperCase()} - ${lab()} - ${prem()?"Premium":"Version gratuite 🔒"}`:`⚠️ Contenu en cours pour ${S().pays} - ${lab()}`}</p>`;
 window.tb=k=>{try{if(sos.u)sosStop()}catch(e){}tab=k;openF=null;Q=null;window.ao=null;view();scrollTo(0,0)};
